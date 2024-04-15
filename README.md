@@ -8,6 +8,11 @@ To clone this project, use the `git clone` command in your terminal:
 git clone https://github.com/MichaelAngelo12321/fileReaderPHP.git
 ```
 
+In main project folder, run this command to install dependencies:
+
+```bash
+composer install
+```
 To start tests, use this command in main project folder:
 
 ```bash

@@ -7,7 +7,8 @@ use src\Interfaces\FileReaderInterface;
 class SmallFileReader implements FileReaderInterface
 {
 
-    private $fileHandle;
+    private $fileContent;
+    private $currentLine;
 
     public function openFile(string $filePath): bool
     {
@@ -15,25 +16,24 @@ class SmallFileReader implements FileReaderInterface
             return false;
         }
 
-        $this->fileHandle = fopen($filePath, 'r');
+        $this->fileContent = file($filePath);
+        $this->currentLine = 0;
+
         return true;
     }
 
     public function readLine(): ?string
     {
-        if (!$this->fileHandle || feof($this->fileHandle)) {
+        if ($this->fileContent === null || $this->currentLine >= count($this->fileContent)) {
             return null;
         }
 
-        $line = fgets($this->fileHandle);
-        return $line === false ? null : $line;
+        return $this->fileContent[$this->currentLine++];
     }
 
     public function closeFile(): void
     {
-        if ($this->fileHandle) {
-            fclose($this->fileHandle);
-            $this->fileHandle = null;
-        }
+        $this->fileContent = null;
+        $this->currentLine = 0;
     }
 }

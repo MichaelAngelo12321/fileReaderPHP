@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\Unit;
+namespace Unit;
 
 use PHPUnit\Framework\TestCase;
 use src\Models\TextFileReader;

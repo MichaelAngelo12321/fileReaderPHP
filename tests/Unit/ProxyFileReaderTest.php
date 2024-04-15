@@ -1,7 +1,8 @@
 <?php
 
-namespace tests\Unit;
+namespace Unit;
 
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use src\Models\TextFileReader;
 use src\Models\ProxyFileReader;
@@ -12,6 +13,9 @@ class ProxyFileReaderTest extends TestCase
     private $reader;
     private $tempFile;
 
+    /**
+     * @throws Exception
+     */
     protected function setUp(): void
     {
         $textFileReader = new TextFileReader();

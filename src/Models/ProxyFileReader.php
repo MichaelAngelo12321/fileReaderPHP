@@ -2,6 +2,7 @@
 
 namespace src\Models;
 
+use src\Exceptions\FileDownloadException;
 use src\Interfaces\FileReaderInterface;
 use src\Interfaces\FileDownloaderInterface;
 
@@ -18,10 +19,16 @@ class ProxyFileReader implements FileReaderInterface
         $this->fileDownloader = $fileDownloader;
     }
 
+
     public function openFile(string $filePath): bool
     {
         if (!file_exists($filePath)) {
-            $this->fileDownloader->downloadFile($filePath, $this->remoteUrl);
+            try {
+                $this->fileDownloader->downloadFile($filePath, $this->remoteUrl);
+            } catch (FileDownloadException $e) {
+                error_log($e->getMessage());
+                return false;
+            }
         }
 
         return $this->fileReader->openFile($filePath);
