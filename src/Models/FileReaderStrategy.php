@@ -1,18 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace src\Models;
 
 use src\Interfaces\FileReaderInterface;
 
 class FileReaderStrategy implements FileReaderInterface
 {
-    private $fileReader;
+    private FileReaderInterface $fileReader;
+    private const FILE_SIZE_LIMIT = 5000000;
 
     public function __construct(string $filePath)
     {
         $fileSize = filesize($filePath);
 
-        if ($fileSize <= 5000000) {
+        if ($fileSize <= self::FILE_SIZE_LIMIT) {
             $this->fileReader = new SmallFileReader();
         } else {
             $this->fileReader = new LargeFileReader();

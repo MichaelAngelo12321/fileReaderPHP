@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace src\Models;
 
 use src\Exceptions\FileDownloadException;
@@ -8,9 +10,9 @@ use src\Interfaces\FileDownloaderInterface;
 
 class ProxyFileReader implements FileReaderInterface
 {
-    private $fileReader;
-    private $remoteUrl;
-    private $fileDownloader;
+    private FileReaderInterface $fileReader;
+    private FileDownloaderInterface $fileDownloader;
+    private string $remoteUrl;
 
     public function __construct(FileReaderInterface $fileReader, FileDownloaderInterface $fileDownloader, string $remoteUrl)
     {
@@ -18,7 +20,6 @@ class ProxyFileReader implements FileReaderInterface
         $this->remoteUrl = $remoteUrl;
         $this->fileDownloader = $fileDownloader;
     }
-
 
     public function openFile(string $filePath): bool
     {

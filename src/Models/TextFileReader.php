@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace src\Models;
 
 use src\Interfaces\FileReaderInterface;
 
 class TextFileReader implements FileReaderInterface
 {
-
     private $fileHandle;
+    private const FILE_OPEN_MODE = 'r';
 
     public function openFile(string $filePath): bool
     {
@@ -15,7 +17,7 @@ class TextFileReader implements FileReaderInterface
             return false;
         }
 
-        $this->fileHandle = fopen($filePath, 'r');
+        $this->fileHandle = fopen($filePath, self::FILE_OPEN_MODE);
         return true;
     }
 

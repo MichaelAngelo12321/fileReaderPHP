@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace src\Models;
 
 use src\Interfaces\FileReaderInterface;
 
 class SmallFileReader implements FileReaderInterface
 {
-
-    private $fileContent;
-    private $currentLine;
+    private array $fileContent;
+    private int $currentLine;
 
     public function openFile(string $filePath): bool
     {
@@ -33,7 +34,7 @@ class SmallFileReader implements FileReaderInterface
 
     public function closeFile(): void
     {
-        $this->fileContent = null;
+        $this->fileContent = [];
         $this->currentLine = 0;
     }
 }

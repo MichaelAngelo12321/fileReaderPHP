@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace src\Models;
 
 use RuntimeException;
@@ -7,8 +9,10 @@ use src\Interfaces\FileReaderInterface;
 
 class LargeFileReader implements FileReaderInterface
 {
-
     private $fileHandle;
+    private const FILE_OPEN_MODE = 'r';
+    private const ERROR_MESSAGE_OPEN = "Failed to open file: ";
+    private const ERROR_MESSAGE_READ = 'Failed to read line from file';
 
     public function __destruct()
     {
@@ -21,10 +25,10 @@ class LargeFileReader implements FileReaderInterface
             return false;
         }
 
-        $this->fileHandle = @fopen($filePath, 'r');
+        $this->fileHandle = @fopen($filePath, self::FILE_OPEN_MODE);
 
         if ($this->fileHandle === false) {
-            throw new RuntimeException("Failed to open file: $filePath");
+            throw new RuntimeException(self::ERROR_MESSAGE_OPEN . $filePath);
         }
 
         return true;
@@ -42,7 +46,7 @@ class LargeFileReader implements FileReaderInterface
             if (feof($this->fileHandle)) {
                 return null;
             } else {
-                throw new RuntimeException('Failed to read line from file');
+                throw new RuntimeException(self::ERROR_MESSAGE_READ);
             }
         }
 

@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace src\Models;
 
 use src\Interfaces\FileReaderInterface;
 
 class UnixLineEndingFileReader implements FileReaderInterface
 {
-    private $fileReader;
+    private FileReaderInterface $fileReader;
+    private const UNIX_LINE_ENDING = "\n";
+    private const WINDOWS_LINE_ENDING = "\r\n";
+    private const MAC_LINE_ENDING = "\r";
 
     public function __construct(FileReaderInterface $fileReader)
     {
@@ -23,8 +28,8 @@ class UnixLineEndingFileReader implements FileReaderInterface
         $line = $this->fileReader->readLine();
 
         if ($line !== null) {
-            $line = str_replace("\r\n", "\n", $line);
-            $line = str_replace("\r", "\n", $line);
+            $line = str_replace(self::WINDOWS_LINE_ENDING, self::UNIX_LINE_ENDING, $line);
+            $line = str_replace(self::MAC_LINE_ENDING, self::UNIX_LINE_ENDING, $line);
         }
 
         return $line;
